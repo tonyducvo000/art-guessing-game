@@ -45,14 +45,14 @@ fun ArtGuessingGameScreen(viewModel: GameViewModel) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1.2f)
+                .weight(1f) // Allow the top section to occupy available space
                 .padding(top = 12.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = "Who made this?",
-                fontWeight = FontWeight.Bold,
-                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.ExtraBold,
+                style = MaterialTheme.typography.displaySmall,
                 color = TextPrimary
             )
 
@@ -63,82 +63,90 @@ fun ArtGuessingGameScreen(viewModel: GameViewModel) {
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1f)
-                    .padding(horizontal = 4.dp),
+                    .weight(1f), // Image grows/shrinks to fit the column
                 contentScale = ContentScale.Fit
             )
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
             Text(
                 text = round.artwork.title,
-                style = MaterialTheme.typography.bodyMedium,
-                color = TextPrimary.copy(alpha = 0.7f)
+                style = MaterialTheme.typography.headlineSmall,
+                color = TextPrimary,
+                fontWeight = FontWeight.Bold
             )
         }
 
-        Spacer(modifier = Modifier.height(18.dp))
+        Spacer(modifier = Modifier.height(24.dp))
 
-        // BOTTOM: choices anchored higher (padding bottom lifts them)
+        // BOTTOM: choices + feedback (Takes exact space needed)
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(0.8f)
-                .padding(bottom = 16.dp),
-            verticalArrangement = Arrangement.Bottom
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                round.choices.forEach { choice ->
-                    val isCorrect = choice == correct
-                    val isSelected = selected == choice
+            round.choices.forEach { choice ->
+                val isCorrect = choice == correct
+                val isSelected = selected == choice
 
-                    val container = when {
-                        selected == null -> ButtonIdle
-                        isCorrect -> ButtonCorrect
-                        isSelected -> ButtonWrong
-                        else -> ButtonIdle
-                    }
+                val container = when {
+                    selected == null -> ButtonIdle
+                    isCorrect -> ButtonCorrect
+                    isSelected -> ButtonWrong
+                    else -> ButtonIdle
+                }
 
-                    Button(
-                        onClick = { viewModel.select(choice) },
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(12.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = container,
-                            contentColor = TextPrimary
-                        ),
-                        elevation = ButtonDefaults.buttonElevation(0.dp)
-                    ) {
-                        Text(choice, color = TextPrimary)
-                    }
+                Button(
+                    onClick = { viewModel.select(choice) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(64.dp),
+                    shape = RoundedCornerShape(12.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = container,
+                        contentColor = TextPrimary
+                    ),
+                    elevation = ButtonDefaults.buttonElevation(0.dp)
+                ) {
+                    Text(
+                        text = choice,
+                        color = TextPrimary,
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Medium
+                    )
                 }
             }
 
             if (selected != null) {
-                Spacer(modifier = Modifier.height(14.dp))
+                Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
                     text = if (selected == correct) "Correct"
                     else "Incorrect — it’s $correct",
                     fontWeight = FontWeight.Bold,
-                    color = TextPrimary
+                    color = TextPrimary,
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(4.dp))
 
                 Button(
                     onClick = { viewModel.nextRound() },
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(64.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = ButtonIdle,
                         contentColor = TextPrimary
                     ),
                     elevation = ButtonDefaults.buttonElevation(0.dp)
                 ) {
-                    Text("Next", color = TextPrimary)
+                    Text(
+                        text = "Next",
+                        color = TextPrimary,
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold
+                    )
                 }
             }
         }
