@@ -1,4 +1,6 @@
-package com.example.artguess.ui
+package com.example.artguess.screen
+
+
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,10 +25,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.example.artguess.game.GameViewModel
 
-private val ButtonIdle = Color(0xFFD1D1D1)
-private val ButtonCorrect = Color(0xFFDCEEDC)
-private val ButtonWrong = Color(0xFFF2DADA)
-private val TextPrimary = Color.Black
 
 @Composable
 fun ArtGuessingGameScreen(viewModel: GameViewModel) {
@@ -54,6 +52,17 @@ fun ArtGuessingGameScreen(viewModel: GameViewModel) {
                 fontWeight = FontWeight.ExtraBold,
                 style = MaterialTheme.typography.displaySmall,
                 color = TextPrimary
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            Text(
+                text = "Score: ${state.score}  ·  Streak: ${state.streak}",
+                // Changed from labelMedium to titleMedium for a larger font size
+                style = MaterialTheme.typography.titleMedium,
+                color = TextPrimary.copy(alpha = 0.6f),
+                // Added SemiBold weight to make it stand out without being as heavy as the title
+                fontWeight = FontWeight.SemiBold
             )
 
             Spacer(modifier = Modifier.height(10.dp))

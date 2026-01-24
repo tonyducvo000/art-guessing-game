@@ -1,3 +1,5 @@
+
+
 package com.example.artguess
 
 import android.os.Bundle
@@ -7,7 +9,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import com.example.artguess.game.GameViewModel
-import com.example.artguess.ui.ArtGuessingGameScreen
+import com.example.artguess.screen.ArtGuessingGameScreen
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

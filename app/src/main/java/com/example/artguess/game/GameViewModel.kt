@@ -9,16 +9,17 @@ import kotlinx.coroutines.flow.update
 class GameViewModel : ViewModel() {
 
     private val _uiState = MutableStateFlow(
-        GameUiState(
+        GameUIState(
             round = ArtRepository.nextRound(excludeId = null),
             selected = null,
             score = 0,
             streak = 0,
+            viewedIds = emptySet(),
             lastArtworkId = null
         )
     )
 
-    val uiState: StateFlow<GameUiState> = _uiState
+    val uiState: StateFlow<GameUIState> = _uiState
 
     fun select(choice: String) {
         _uiState.update { state ->
@@ -41,7 +42,8 @@ class GameViewModel : ViewModel() {
             state.copy(
                 round = newRound,
                 selected = null,
-                lastArtworkId = newRound.artwork.id
+                lastArtworkId = newRound.artwork.id,
+                roundNumber = state.roundNumber + 1
             )
         }
     }
