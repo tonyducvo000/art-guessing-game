@@ -57,7 +57,7 @@ fun ArtGuessingGameScreen(viewModel: GameViewModel) {
             Spacer(modifier = Modifier.height(10.dp))
 
             Text(
-                text = "Score: ${state.score}  ·  Streak: ${state.streak}",
+                text = "Score: ${state.score}/${state.totalRounds}  ·  Streak: ${state.streak}",
                 // Changed from labelMedium to titleMedium for a larger font size
                 style = MaterialTheme.typography.titleMedium,
                 color = TextPrimary.copy(alpha = 0.6f),

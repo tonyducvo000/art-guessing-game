@@ -15,7 +15,8 @@ class GameViewModel : ViewModel() {
             score = 0,
             streak = 0,
             viewedIds = emptySet(),
-            lastArtworkId = null
+            lastArtworkId = null,
+            totalRounds = ArtRepository.artWorkSize()
         )
     )
 

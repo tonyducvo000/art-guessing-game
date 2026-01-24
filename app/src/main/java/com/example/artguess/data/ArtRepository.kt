@@ -29,6 +29,8 @@ object ArtRepository {
         )
     )
 
+    fun artWorkSize(): Int = artworks.size
+
     fun nextRound(excludeId: String? = null, numChoices: Int = 4): Round {
         val pool = if (excludeId == null) artworks else artworks.filter { it.id != excludeId }
         val artwork = pool.random()
