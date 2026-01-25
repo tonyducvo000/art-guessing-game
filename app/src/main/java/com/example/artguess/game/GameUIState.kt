@@ -11,7 +11,8 @@ data class GameUIState(
     val totalRounds: Int = 10,
     val roundNumber: Int = 0,
     val isGameOver: Boolean = false,
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val isGameStarted: Boolean = false
 ) {
     val correctArtist: String? get() = round?.artwork?.artist
     val isAnswered: Boolean get() = selected != null

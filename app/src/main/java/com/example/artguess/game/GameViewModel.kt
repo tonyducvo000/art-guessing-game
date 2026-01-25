@@ -10,10 +10,11 @@ import kotlinx.coroutines.launch
 
 class GameViewModel : ViewModel() {
 
-    private val _uiState = MutableStateFlow(GameUIState(isLoading = true))
+    private val _uiState = MutableStateFlow(GameUIState())
     val uiState: StateFlow<GameUIState> = _uiState
 
-    init {
+    fun startGame() {
+        _uiState.update { it.copy(isGameStarted = true, isLoading = true) }
         loadNextRound()
     }
 
@@ -32,7 +33,6 @@ class GameViewModel : ViewModel() {
                     )
                 }
             } catch (e: Exception) {
-                // Handle error (e.g., set an error state)
                 _uiState.update { it.copy(isLoading = false) }
             }
         }
@@ -62,7 +62,7 @@ class GameViewModel : ViewModel() {
     }
 
     fun restartGame() {
-        _uiState.value = GameUIState(isLoading = true)
+        _uiState.value = GameUIState(isGameStarted = true, isLoading = true)
         loadNextRound()
     }
 }
