@@ -1,5 +1,6 @@
 package com.example.artguess.game
 
+import com.example.artguess.data.Artwork
 import com.example.artguess.data.Round
 
 data class GameUIState(
@@ -12,7 +13,8 @@ data class GameUIState(
     val roundNumber: Int = 0,
     val isGameOver: Boolean = false,
     val isLoading: Boolean = false,
-    val isGameStarted: Boolean = false
+    val isGameStarted: Boolean = false,
+    val startArtwork: Artwork? = null
 ) {
     val correctArtist: String? get() = round?.artwork?.artist
     val isAnswered: Boolean get() = selected != null

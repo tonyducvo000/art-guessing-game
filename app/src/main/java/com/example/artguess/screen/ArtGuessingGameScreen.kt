@@ -2,6 +2,7 @@ package com.example.artguess.screen
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.keyframes
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -39,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import com.example.artguess.data.Artwork
 import com.example.artguess.game.GameViewModel
 
 @Composable
@@ -47,7 +50,10 @@ fun ArtGuessingGameScreen(viewModel: GameViewModel) {
 
     when {
         !state.isGameStarted -> {
-            StartScreen(onStart = { viewModel.startGame() })
+            StartScreen(
+                onStart = { viewModel.startGame() },
+                artwork = state.startArtwork
+            )
         }
         state.isLoading -> {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -109,8 +115,14 @@ fun ArtGuessingGameScreen(viewModel: GameViewModel) {
 
                         Spacer(modifier = Modifier.height(12.dp))
 
+                        val titleText = if (round.artwork.endDate != null) {
+                            "${round.artwork.title}, ${round.artwork.endDate}"
+                        } else {
+                            round.artwork.title
+                        }
+
                         Text(
-                            text = round.artwork.title,
+                            text = titleText,
                             style = MaterialTheme.typography.titleMedium,
                             color = TextPrimary,
                             fontWeight = FontWeight.Bold,
@@ -217,7 +229,7 @@ fun ArtGuessingGameScreen(viewModel: GameViewModel) {
 }
 
 @Composable
-fun StartScreen(onStart: () -> Unit) {
+fun StartScreen(onStart: () -> Unit, artwork: Artwork?) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -225,12 +237,24 @@ fun StartScreen(onStart: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Icon(
-            imageVector = Icons.Default.Home,
-            contentDescription = null,
-            modifier = Modifier.size(120.dp),
-            tint = TextPrimary.copy(alpha = 0.8f)
-        )
+        if (artwork != null) {
+            AsyncImage(
+                model = artwork.imageUrl,
+                contentDescription = null,
+                modifier = Modifier
+                    .size(240.dp)
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(Color.LightGray),
+                contentScale = ContentScale.Crop
+            )
+        } else {
+            Icon(
+                imageVector = Icons.Default.Home,
+                contentDescription = null,
+                modifier = Modifier.size(120.dp),
+                tint = TextPrimary.copy(alpha = 0.8f)
+            )
+        }
 
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -247,7 +271,7 @@ fun StartScreen(onStart: () -> Unit) {
             color = TextPrimary.copy(alpha = 0.6f)
         )
 
-        Spacer(modifier = Modifier.height(48.dp))
+        Spacer(modifier = Modifier.height(32.dp))
 
         Text(
             text = "Can you identify the artist of these famous works? Test your knowledge in 10 rounds.",

@@ -28,6 +28,7 @@ class MetArtSource(
             val imageUrl = obj.primaryImageSmall?.trim().orEmpty()
             val artist = obj.artistDisplayName?.trim().orEmpty()
             val title = obj.title?.trim().orEmpty()
+            val endDate = obj.objectEndDate
 
             val appId = "met:$id"
             val usable =
@@ -42,7 +43,8 @@ class MetArtSource(
                     id = appId,
                     title = title,
                     imageUrl = imageUrl,
-                    artist = artist
+                    artist = artist,
+                    endDate = endDate
                 )
 
                 val decoys = mutableSetOf<String>()

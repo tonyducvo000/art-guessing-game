@@ -10,5 +10,6 @@ data class MetObjectResponse(
     val isPublicDomain: Boolean,
     val primaryImageSmall: String?,
     val title: String?,
-    val artistDisplayName: String?
+    val artistDisplayName: String?,
+    val objectEndDate: Int?
 )
