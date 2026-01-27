@@ -64,6 +64,7 @@ fun ArtGuessingGameScreen(viewModel: GameViewModel) {
             GameOverScreen(
                 score = state.score,
                 total = state.totalRounds,
+                streak = state.maxStreak,
                 onPlayAgain = { viewModel.restartGame() }
             )
         }
@@ -91,15 +92,6 @@ fun ArtGuessingGameScreen(viewModel: GameViewModel) {
                             fontWeight = FontWeight.ExtraBold,
                             style = MaterialTheme.typography.headlineMedium,
                             color = TextPrimary
-                        )
-
-                        Spacer(modifier = Modifier.height(4.dp))
-
-                        Text(
-                            text = "Score: ${state.score}/${state.totalRounds}  ·  Streak: ${state.streak}",
-                            style = MaterialTheme.typography.titleSmall,
-                            color = TextPrimary.copy(alpha = 0.6f),
-                            fontWeight = FontWeight.SemiBold
                         )
 
                         Spacer(modifier = Modifier.height(8.dp))

@@ -1,8 +1,5 @@
 package com.example.artguess.screen
 
-
-
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,15 +13,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-
 import androidx.compose.ui.unit.dp
-
-
 
 @Composable
 fun GameOverScreen(
     score: Int,
     total: Int,
+    streak: Int,
     onPlayAgain: () -> Unit
 ) {
     val rank = when {
@@ -49,6 +44,14 @@ fun GameOverScreen(
             text = "Final Score: $score / $total",
             style = MaterialTheme.typography.titleLarge,
             color = TextPrimary
+        )
+
+        Spacer(Modifier.height(8.dp))
+
+        Text(
+            text = "Best Streak: $streak",
+            style = MaterialTheme.typography.titleMedium,
+            color = TextPrimary.copy(alpha = 0.8f)
         )
 
         Spacer(Modifier.height(8.dp))

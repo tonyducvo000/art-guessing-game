@@ -8,6 +8,7 @@ data class GameUIState(
     val selected: String? = null,
     val score: Int = 0,
     val streak: Int = 0,
+    val maxStreak: Int = 0,
     val seenIds: Set<String> = emptySet(),
     val totalRounds: Int = 10,
     val roundNumber: Int = 0,

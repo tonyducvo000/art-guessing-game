@@ -7,11 +7,27 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.math.max
 
 class GameViewModel : ViewModel() {
 
     private val _uiState = MutableStateFlow(GameUIState())
     val uiState: StateFlow<GameUIState> = _uiState
+
+    init {
+        loadStartArtwork()
+    }
+
+    private fun loadStartArtwork() {
+        viewModelScope.launch {
+            try {
+                val artwork = ArtRepository.getRandomArtwork()
+                _uiState.update { it.copy(startArtwork = artwork) }
+            } catch (e: Exception) {
+                // Ignore failure for start screen decoration
+            }
+        }
+    }
 
     fun startGame() {
         _uiState.update { it.copy(isGameStarted = true, isLoading = true) }
@@ -44,11 +60,13 @@ class GameViewModel : ViewModel() {
             if (state.isAnswered) return@update state
 
             val isCorrect = (choice == correct)
+            val newStreak = if (isCorrect) state.streak + 1 else 0
 
             state.copy(
                 selected = choice,
                 score = state.score + if (isCorrect) 1 else 0,
-                streak = if (isCorrect) state.streak + 1 else 0
+                streak = newStreak,
+                maxStreak = max(state.maxStreak, newStreak)
             )
         }
     }
