@@ -8,9 +8,9 @@ interface MetApi {
 
     @GET("public/collection/v1/search")
     suspend fun search(
-        @Query("q") q: String = "art",
+        @Query("q") q: String = "European Paintings",
         @Query("hasImages") hasImages: Boolean = true,
-        @Query("isOnView") isOnView: Boolean? = null
+        @Query("departmentId") departmentId: Int = 11
     ): MetSearchResponse
 
     @GET("public/collection/v1/objects/{objectId}")

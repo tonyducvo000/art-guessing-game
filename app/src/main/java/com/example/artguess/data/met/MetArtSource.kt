@@ -7,16 +7,18 @@ import kotlin.random.Random
 class MetArtSource(
     private val api: MetApi = MetClient.api
 ) {
-    // Cache IDs so you don't search every round
     private var cachedIds: List<Int> = emptyList()
 
     suspend fun nextRound(excludeIds: Set<String>, numChoices: Int = 4): Round {
         if (cachedIds.isEmpty()) {
-            val search = api.search(q = "art", hasImages = true)
+            val search = api.search(
+                q = "European Paintings",
+                hasImages = true,
+                departmentId = 11
+            )
             cachedIds = search.objectIDs.orEmpty()
         }
 
-        // Try a few times to find a usable object (public domain + has image + not seen)
         repeat(20) {
             if (cachedIds.isEmpty()) return fallbackRound()
 
@@ -43,7 +45,6 @@ class MetArtSource(
                     artist = artist
                 )
 
-                // For decoys we need other artists; simplest: sample other objects
                 val decoys = mutableSetOf<String>()
                 while (decoys.size < (numChoices - 1).coerceAtLeast(0)) {
                     val decoyId = cachedIds[Random.nextInt(cachedIds.size)]
@@ -57,13 +58,10 @@ class MetArtSource(
             }
         }
 
-        // If we couldn't find a usable one quickly
         return fallbackRound()
     }
 
     private fun fallbackRound(): Round {
-        // You can return a local hardcoded round here so the game never dies.
-        // For now, throw so you see it in Logcat.
         throw IllegalStateException("MetArtSource: no usable public-domain image found.")
     }
 }
