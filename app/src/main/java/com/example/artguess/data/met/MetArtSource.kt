@@ -14,7 +14,7 @@ class MetArtSource(
             val search = api.search(
                 q = "European Paintings",
                 hasImages = true,
-                departmentId = 11
+                isPublicDomain = true
             )
             cachedIds = search.objectIDs.orEmpty()
         }
@@ -31,6 +31,7 @@ class MetArtSource(
             val endDate = obj.objectEndDate
 
             val appId = "met:$id"
+            // We still double check isPublicDomain since the search might vary by API version
             val usable =
                 obj.isPublicDomain &&
                         imageUrl.isNotEmpty() &&

@@ -10,7 +10,7 @@ interface MetApi {
     suspend fun search(
         @Query("q") q: String = "European Paintings",
         @Query("hasImages") hasImages: Boolean = true,
-        @Query("departmentId") departmentId: Int = 11
+        @Query("isPublicDomain") isPublicDomain: Boolean = true
     ): MetSearchResponse
 
     @GET("public/collection/v1/objects/{objectId}")
