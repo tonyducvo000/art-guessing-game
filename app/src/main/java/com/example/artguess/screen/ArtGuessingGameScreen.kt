@@ -14,12 +14,9 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import com.example.artguess.R
 import com.example.artguess.data.Artwork
 import com.example.artguess.game.GameViewModel
 
@@ -222,6 +220,14 @@ fun ArtGuessingGameScreen(viewModel: GameViewModel) {
 
 @Composable
 fun StartScreen(onStart: () -> Unit, artwork: Artwork?) {
+    // Randomly select one of the local drawables for the start screen image
+    val startImage = remember {
+        listOf(
+            R.drawable.dp295025,
+            R.drawable.dp_20394_001
+        ).random()
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -229,24 +235,15 @@ fun StartScreen(onStart: () -> Unit, artwork: Artwork?) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        if (artwork != null) {
-            AsyncImage(
-                model = artwork.imageUrl,
-                contentDescription = null,
-                modifier = Modifier
-                    .size(240.dp)
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(Color.LightGray),
-                contentScale = ContentScale.Crop
-            )
-        } else {
-            Icon(
-                imageVector = Icons.Default.Home,
-                contentDescription = null,
-                modifier = Modifier.size(120.dp),
-                tint = TextPrimary.copy(alpha = 0.8f)
-            )
-        }
+        AsyncImage(
+            model = startImage,
+            contentDescription = null,
+            modifier = Modifier
+                .size(240.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .background(Color.LightGray),
+            contentScale = ContentScale.Crop
+        )
 
         Spacer(modifier = Modifier.height(24.dp))
 
