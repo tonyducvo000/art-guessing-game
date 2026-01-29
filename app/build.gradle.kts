@@ -42,6 +42,8 @@ android {
 }
 
 dependencies {
+    // Confetti
+    implementation("nl.dionsegijn:konfetti-compose:2.0.5")
 
     //MET API
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
